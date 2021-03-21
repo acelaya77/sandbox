@@ -12,6 +12,10 @@ data = request.json()
 for item in data['search']['records']:
     thisList = []
     thisList.append(item['id'])
+    if item['price']['hidden']:
+        thisList.append("$hidden")
+    else:
+        thisList.append("${:,.2f}".format(item['price']['type']['amount']['USD']))
     thisList.append(item['make'])
     thisList.append(item['model'])
     thisList.append(item['year'])
@@ -19,5 +23,8 @@ for item in data['search']['records']:
     thisList.append(item['location']['address']['city'])
     thisList.append(item['location']['address']['state'])
     thisList.append(item['location']['address']['country'])
-    thisList.append(item['owner']['logo']['rootname'])
+    if 'rootName' in  item['owner']:
+        thisList.append(item['owner']['rootName'])
+    else:
+        thisList.append(item['owner']['name'])
     print(thisList)
